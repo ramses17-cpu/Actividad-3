@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda Telefónica</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+
+<div id="app" class="container">
+  <h2 class="header">Agenda Telefónica</h2>
+
+  <div>
+    <h3>Nuevo Contacto</h3>
+    <input type="text" v-model="newContact.name" placeholder="Nombre">
+    <input type="text" v-model="newContact.phone" placeholder="Teléfono">
+    <select v-model="newContact.category">
+      <option value="" disabled selected>Categoría</option>
+      <option>Familiar</option>
+      <option>Amistad</option>
+      <option>Laboral</option>
+    </select>
+    <button class="btn btn-add" @click="addContact">Agregar</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Teléfono</th>
+        <th>Categoría</th>
+        <th>Mensajes</th>
+        <th>Llamadas</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(contact, index) in contacts" :key="index">
+        <td>{{ contact.name }}</td>
+        <td>{{ contact.phone }}</td>
+        <td>{{ contact.category }}</td>
+        <td>
+          <button class="btn btn-small" @click="decreaseMessages(index)" :disabled="contact.messages <= 0">-</button>
+          {{ contact.messages }}
+          <button class="btn btn-small" @click="increaseMessages(index)" :disabled="contact.messages >= 25">+</button>
+        </td>
+        <td>
+          <button class="btn btn-small" @click="decreaseCalls(index)" :disabled="contact.calls <= 0">-</button>
+          {{ contact.calls }}
+          <button class="btn btn-small" @click="increaseCalls(index)" :disabled="contact.calls >= 15">+</button>
+        </td>
+        <td><button class="btn btn-delete" @click="removeContact(index)">Eliminar</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Total de contactos: {{ contacts.length }}</p>
+  <p>Total de mensajes: {{ totalMessages }}</p>
+  <p>Total de llamadas: {{ totalCalls }}</p>
+</div>
+
+</body>
+</html>
